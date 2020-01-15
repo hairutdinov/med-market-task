@@ -39,7 +39,7 @@ class ProductController extends Controller
         $products = Product::find()->with("productImages")->joinWith([
           'category' => function ($query) {
             $category_id = \Yii::$app->request->get('category_id');
-            if ($category_id !== "") {
+            if (!empty($category_id)) {
                 $query->where(["category.id" => $category_id]);
             }
           }
