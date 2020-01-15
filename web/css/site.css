@@ -237,6 +237,17 @@ a.product__button:hover {
     margin-right: 0;
 }
 
+.product-update__gallery {
+    background-color: #fff;
+}
+
+.product-update__image {
+    border: 1px solid #c5c5c5;
+    padding: 0;
+    margin: 5px 10px;
+}
+}
+
 @media screen and (max-width: 1200px) {
     .product__button {
         flex-basis: auto;

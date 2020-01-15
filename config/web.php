@@ -62,6 +62,7 @@ $config = [
               "products/?<category_id:\d*>" => "product/index",
               "product/index/?<category_id:\d*>" => "product/index",
               "product/view/<id:\d*>" => "product/view",
+              "product/update/<id:\d*>" => "product/update",
             ],
         ],
 

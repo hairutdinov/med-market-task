@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "product_images".
@@ -55,4 +56,39 @@ class ProductImage extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Product::className(), ['id' => 'product_id']);
     }
+
+
+    public function saveFileOnServer($uploadImageModel)
+    {
+        $uploadImageModel->imageFile = UploadedFile::getInstance($uploadImageModel, 'imageFile');
+
+        if (file_exists("uploads/" . $uploadImageModel->imageFile->name)) {
+            Yii::$app->session->setFlash('upload-file__error', 'Файл с таким именем уже существует');
+            return false;
+        } else {
+            if ($uploadImageModel->upload()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function saveInDatabase($filename, $product_id)
+    {
+        $this->url = $filename;
+        $this->product_id = $product_id;
+
+        try {
+            if (!$this->save()) {
+                Yii::$app->session->setFlash('upload-file__error', 'При сохранении файла в БД произошла ошибка');
+            } else {
+                Yii::$app->session->setFlash('upload-file__success', 'Изображение успешно сохранено');
+            }
+        } catch (Exception $e) {
+            Yii::$app->session->setFlash('upload-file__error', 'При сохранении файла в БД произошла ошибка. Попробуйте изменить имя файла.');
+            Yii::debug($e->errorInfo[2]);
+        }
+        return false;
+    }
+
 }

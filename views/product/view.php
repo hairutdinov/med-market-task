@@ -1,5 +1,6 @@
 <?php
 
+use antkaz\vue\VueAsset;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
@@ -10,11 +11,14 @@ $this->title = $product["name"];
 $this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-?>
-<div class="product-card-wrapper">
 
-    <button class="btn btn-success">Update (not work)</button>
-    <button class="btn btn-danger">Delete (not work)</button>
+VueAsset::register($this);
+
+?>
+<div class="product-card-wrapper" id="product-card-wrapper">
+
+    <a href="<?= \yii\helpers\Url::to(["/product/update/{$product['id']}"]) ?>" class="btn btn-success">Update</a>
+    <button class="btn btn-danger" @click="deleteProduct">Delete</button>
     
     <?php //debug($product); ?>
 
@@ -52,5 +56,20 @@ $this->params['breadcrumbs'][] = $this->title;
       </div>
 
     </div>
-  
+
 </div>
+
+
+<script>
+  new Vue({
+    el: '#product-card-wrapper',
+    data: {
+      message: 'Hello Vue.js!'
+    },
+    methods: {
+      deleteProduct() {
+        alert(123);
+      }
+    }
+  })
+</script>

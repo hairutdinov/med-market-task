@@ -3,12 +3,16 @@
 namespace app\controllers;
 
 use app\models\Category;
+use app\models\ProductImage;
+use app\models\UploadFileForm;
 use Yii;
 use app\models\Product;
 use app\models\ProductSearch;
+use yii\db\Exception;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ProductController implements the CRUD actions for Product model.
@@ -30,21 +34,19 @@ class ProductController extends Controller
         ];
     }
 
-    /**
-     * Lists all Product models.
-     * @return mixed
-     */
+
     public function actionIndex()
     {
         $products = Product::getProductsWithImagesAndCategories();
 
+        // Отображение всех категорий для товаров
         $categories = Category::all();
 
         return $this->render('index', compact('products', 'categories'));
     }
 
     /**
-     * Displays a single Product model.
+     * Отображение только одного товара (карточка товара).
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -52,19 +54,22 @@ class ProductController extends Controller
     public function actionView($id)
     {
         $product = Product::getProductWithImagesAndCategory(["product.id" => $id]);
-
-        return $this->render('view', compact('product'));
+        if ($product !== null) {
+            return $this->render('view', compact('product'));
+        }
+        throw new NotFoundHttpException("Страница не найдена");
     }
 
     /**
-     * Creates a new Product model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * Создание нового товара
+     * Если товар успешно создан, редирект на Карточку товара
      * @return mixed
      */
     public function actionCreate()
     {
         $model = new Product();
 
+        // Для DropDown элемента нужны все категории
         $categories = Category::all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
@@ -76,22 +81,41 @@ class ProductController extends Controller
 
     /**
      * Updates an existing Product model.
-     * If update is successful, the browser will be redirected to the 'view' page.
+     * Если товар успешно отредактирован, редирект на Карточку товара
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id=null)
     {
+
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        $images = $model->productImages;
+
+        // Для DropDown элемента нужны все категории
+        $categories = Category::all();
+
+        $productImageModel = new ProductImage();
+
+        $uploadImageModel = new UploadFileForm();
+
+        if (Yii::$app->request->isPost) {
+            if (count($images) === 5) {
+                Yii::$app->session->setFlash('upload-file__error', 'Максимальное количество изображений: 5');
+            } else {
+                if ($productImageModel->saveFileOnServer($uploadImageModel)) {
+                    $productImageModel->saveInDatabase($uploadImageModel->imageFile->name, $id);
+                }
+            }
+
+        }
+
+        return $this->render('update', compact('model', 'categories', 'productImageModel', 'uploadImageModel', 'images'));
     }
 
     /**
