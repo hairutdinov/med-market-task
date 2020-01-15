@@ -17,8 +17,10 @@ $this->title = 'Продукты';
     <div class="product__category col-md-4 col-xl-3">
       <h3 class="category__title">Категории</h3>
       <div class="category__list">
-        <div class="category__item"><a href="" class="category__link">Смартфоны</a></div>
-        <div class="category__item"><a href="" class="category__link">Ноутбуки</a></div>
+        <div class="category__item"><a href="<?= \yii\helpers\Url::to(["/products"]) ?>" class="category__link">Все товары</a></div>
+        <?php foreach ($categories as $category_id => $category_name): ?>
+          <div class="category__item"><a href="<?= \yii\helpers\Url::to(["/products/{$category_id}"]) ?>" class="category__link"><?= $category_name ?></a></div>
+        <?php endforeach; ?>
       </div>
     </div>
 

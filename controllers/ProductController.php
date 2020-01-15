@@ -36,9 +36,18 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-        $products = Product::find()->with("productImages")->joinWith('category')->asArray()->all();
+        $products = Product::find()->with("productImages")->joinWith([
+          'category' => function ($query) {
+            $category_id = \Yii::$app->request->get('category_id');
+            if ($category_id !== "") {
+                $query->where(["category.id" => $category_id]);
+            }
+          }
+        ])->asArray()->all();
 
-        return $this->render('index', compact('products'));
+        $categories = Category::all();
+
+        return $this->render('index', compact('products', 'categories'));
     }
 
     /**
@@ -63,10 +72,7 @@ class ProductController extends Controller
     {
         $model = new Product();
 
-        $categories = Category::find()
-          ->select(["name", "id"])
-          ->indexBy('id')
-          ->column();
+        $categories = Category::all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
