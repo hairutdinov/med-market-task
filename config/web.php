@@ -7,7 +7,19 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
-    'aliases' => [
+
+  'name' => 'Тестовое задание',
+  'timeZone' => 'Europe/Moscow',
+  'version' => '1.0',
+  'charset' => 'UTF-8',
+  'defaultRoute' => 'product/index',
+  'layoutPath' => '@app/views/layouts',
+  'layout' => 'main',
+  'runtimePath' => '@app/runtime',
+  'viewPath' => '@app/views',
+//  'catchAll' => ['site/offline'],
+
+  'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
@@ -43,14 +55,13 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
             ],
         ],
-        */
+
     ],
     'params' => $params,
 ];
