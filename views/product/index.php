@@ -44,7 +44,7 @@ $this->title = 'Продукты';
             <footer>
               <div class="product__buttons-wrapper">
                 <button class="product__button product__button_orange">В корзину</button>
-                <button class="product__button product__button_gray">Подробнее</button>
+                <a href="<?= \yii\helpers\Url::to(["/product/view/{$product['id']}"]) ?>" class="product__button product__button_gray">Подробнее</a>
               </div>
             </footer>
           </div>

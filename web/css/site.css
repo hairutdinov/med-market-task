@@ -192,6 +192,11 @@ a.desc:after {
     flex-wrap: wrap;
 }
 
+a.product__button:hover {
+    text-decoration: none;
+    color: #fff;
+}
+
 .product__button {
     padding: 6px 10px;
     font-size: 14px;
