@@ -170,6 +170,8 @@ a.desc:after {
 }
 
 .product__img {
+    width: 200px;
+    height: 135px;
     margin: 5px 0 15px;
 }
 
@@ -212,7 +214,7 @@ a.desc:after {
 
 @media screen and (max-width: 1200px) {
     .product__button {
-        flex-basis: 1;
+        flex-basis: auto;
         flex-shrink: 0;
     }
 }

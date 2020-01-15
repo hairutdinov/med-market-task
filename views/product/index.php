@@ -27,12 +27,17 @@ $this->title = 'Продукты';
       <div class="product-list">
         <div class="row">
 
-          <?php foreach (range(0,4) as $v): ?>
+          <?php foreach ($products as $product): ?>
           <div class="product-item col-md-6 col-lg-4">
-            <img src="uploads/coffeemachine.png" alt="Изображение товара" class="product__img">
-            <h4 class="product__name">Кофемашина Power 4000</h4>
+            <?php if (count($product["productImages"]) > 0): ?>
+              <img src="<?= \yii\helpers\Url::to(['@web/uploads/' . $product["productImages"][0]["url"]]) ?>" alt="Изображение товара" class="product__img">
+            <?php else: ?>
+              <img src="<?= \yii\helpers\Url::to(['@web/uploads/no-image.jpg']) ?>" alt="Изображение товара отсутствует" class="product__img">
+            <?php endif; ?>
+            <h4 class="product__name"><?= $product["name"] ?></h4>
             <p class="product__price">
-              56 999&#8381;
+
+              <?= number_format($product["price"], 0, '', ' ') ?> &#8381;
             </p>
             <footer>
               <div class="product__buttons-wrapper">

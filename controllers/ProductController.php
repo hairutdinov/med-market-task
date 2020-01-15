@@ -36,7 +36,7 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-        $products = Product::find()->joinWith('category')->asArray()->all();
+        $products = Product::find()->with("productImages")->joinWith('category')->asArray()->all();
 
         return $this->render('index', compact('products'));
     }
