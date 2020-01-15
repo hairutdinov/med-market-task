@@ -176,15 +176,18 @@ a.desc:after {
 .product__name {
     font-size: 16px;
     margin: 10px 0;
+    margin-left: 5px;
 }
 
 .product__price {
     color: #F25826;
     font-size: 15px;
+    margin-left: 5px;
 }
 
 .product__buttons-wrapper {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .product__button {
@@ -205,4 +208,11 @@ a.desc:after {
 .product__button_gray {
     background-color: #3B393A;
     color: #fff;
+}
+
+@media screen and (max-width: 1200px) {
+    .product__button {
+        flex-basis: 1;
+        flex-shrink: 0;
+    }
 }

@@ -14,7 +14,7 @@ $this->title = 'Продукты';
 <!--      </p>-->
     </div>
 
-    <div class="product__category col-3">
+    <div class="product__category col-md-4 col-xl-3">
       <h3 class="category__title">Категории</h3>
       <div class="category__list">
         <div class="category__item"><a href="" class="category__link">Смартфоны</a></div>
@@ -22,13 +22,13 @@ $this->title = 'Продукты';
       </div>
     </div>
 
-    <div class="product__list-wrapper col-9">
+    <div class="product__list-wrapper col-md-8 col-xl-90">
       <h3 class="product-list-wrapper__title">Товары</h3>
       <div class="product-list">
         <div class="row">
 
           <?php foreach (range(0,4) as $v): ?>
-          <div class="product-item col-4">
+          <div class="product-item col-md-6 col-lg-4">
             <img src="uploads/coffeemachine.png" alt="Изображение товара" class="product__img">
             <h4 class="product__name">Кофемашина Power 4000</h4>
             <p class="product__price">
