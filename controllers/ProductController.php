@@ -2,6 +2,7 @@
 
 namespace app\controllers;
 
+use app\models\Category;
 use Yii;
 use app\models\Product;
 use app\models\ProductSearch;
@@ -66,13 +67,16 @@ class ProductController extends Controller
     {
         $model = new Product();
 
+        $categories = Category::find()
+          ->select(["name", "id"])
+          ->indexBy('id')
+          ->column();
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        return $this->render('create', compact('model', 'categories'));
     }
 
     /**
