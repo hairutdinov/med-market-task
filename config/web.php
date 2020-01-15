@@ -19,6 +19,12 @@ $config = [
   'viewPath' => '@app/views',
 //  'catchAll' => ['site/offline'],
 
+  'modules' => [
+    'admin' => [
+      'class' => 'app\modules\admin\Module',
+    ],
+  ],
+
   'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -62,7 +68,7 @@ $config = [
               "products/?<category_id:\d*>" => "product/index",
               "product/index/?<category_id:\d*>" => "product/index",
               "product/view/<id:\d*>" => "product/view",
-              "product/update/<id:\d*>" => "product/update",
+              "admin/product/update/<id:\d*>" => "admin/product/update",
             ],
         ],
 

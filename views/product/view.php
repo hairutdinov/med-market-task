@@ -17,8 +17,8 @@ VueAsset::register($this);
 ?>
 <div class="product-card-wrapper" id="product-card-wrapper">
 
-    <a href="<?= \yii\helpers\Url::to(["/product/update/{$product['id']}"]) ?>" class="btn btn-success">Update</a>
-    <button class="btn btn-danger" @click="deleteProduct">Delete</button>
+    <a href="<?= \yii\helpers\Url::to(["/admin/product/update/{$product['id']}"]) ?>" class="btn btn-success">Update</a>
+    <button class="btn btn-danger" @click="deleteProduct">Delete (not work)</button>
     
     <?php //debug($product); ?>
 
