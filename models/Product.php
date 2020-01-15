@@ -69,4 +69,25 @@ class Product extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ProductImage::className(), ['product_id' => 'id']);
     }
+
+    public static function getProductsWithImagesAndCategories()
+    {
+        return self::find()->with("productImages")->joinWith([
+          'category' => function ($query) {
+              $category_id = \Yii::$app->request->get('category_id');
+              if (!empty($category_id)) {
+                  $query->where(["category.id" => $category_id]);
+              }
+          }
+        ])->asArray()->all();
+    }
+
+
+    public static function getProductWithImagesAndCategory($whereOptions = [])
+    {
+        return self::find()->where($whereOptions)->with("productImages")->with('category')->asArray()->one();
+    }
+
+
+
 }

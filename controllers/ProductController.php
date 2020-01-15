@@ -36,14 +36,7 @@ class ProductController extends Controller
      */
     public function actionIndex()
     {
-        $products = Product::find()->with("productImages")->joinWith([
-          'category' => function ($query) {
-            $category_id = \Yii::$app->request->get('category_id');
-            if (!empty($category_id)) {
-                $query->where(["category.id" => $category_id]);
-            }
-          }
-        ])->asArray()->all();
+        $products = Product::getProductsWithImagesAndCategories();
 
         $categories = Category::all();
 
@@ -56,11 +49,11 @@ class ProductController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($id=null)
+    public function actionView($id)
     {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
+        $product = Product::getProductWithImagesAndCategory(["product.id" => $id]);
+
+        return $this->render('view', compact('product'));
     }
 
     /**

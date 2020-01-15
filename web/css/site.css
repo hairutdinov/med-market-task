@@ -217,6 +217,26 @@ a.product__button:hover {
     color: #fff;
 }
 
+
+.product-gallery__other-images {
+    display: flex;
+    /*flex-wrap: wrap;*/
+}
+
+.product-gallery__other-images img {
+    width: calc(100% / 4 - 20px);
+    margin: 10px 5px;
+    /*flex-grow: 1;*/
+}
+
+.product-gallery__other-images img:first-child {
+    margin-left: 0;
+}
+
+.product-gallery__other-images img:last-child {
+    margin-right: 0;
+}
+
 @media screen and (max-width: 1200px) {
     .product__button {
         flex-basis: auto;
