@@ -2,18 +2,13 @@
 
 namespace app\controllers;
 
-use app\components\Bar;
-use app\components\Foo;
-use app\models\EntryForm;
-use app\models\User;
+use app\commands\RbacController;
 use Yii;
 use yii\filters\AccessControl;
 use yii\helpers\Url;
 use yii\web\Controller;
-use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\LoginForm;
-use app\models\ContactForm;
 
 class SiteController extends Controller
 {
@@ -77,6 +72,9 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             if ($model->login()) {
+                if (\Yii::$app->user->can(RbacController::VIEW_ADMIN_PANEL)) {
+                    return $this->redirect(Url::to(["/admin"]));
+                }
                 return $this->redirect(Url::to(["/product/index"]));
             } else {
                 Yii::$app->session->setFlash("login-error", "Логин или пароль введены неверно");
