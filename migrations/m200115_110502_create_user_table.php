@@ -41,6 +41,12 @@ class m200115_110502_create_user_table extends Migration
             'id',
             'CASCADE'
         );
+
+        $this->batchInsert('{{%user}}', ['id', 'firstName', 'lastName', 'email', 'login', 'password', 'role_id'], [
+            [1, 'john', 'wick', 'johnwick@gmail.com', 'john', '123qweASD', 3],
+            [2, 'peter', 'parker', 'spider-man@gmail.com', 'spider', '123qweASD', 2],
+            [3, 'robert', 'downey', 'robert-jr@gmail.com', 'ironman', '123qweASD', 1],
+        ]);
     }
 
     /**
@@ -59,6 +65,10 @@ class m200115_110502_create_user_table extends Migration
             '{{%idx-user-role_id}}',
             '{{%user}}'
         );
+
+        $this->delete('{{%user}}', ["id" => 1]);
+        $this->delete('{{%user}}', ["id" => 2]);
+        $this->delete('{{%user}}', ["id" => 3]);
 
         $this->dropTable('{{%user}}');
     }
