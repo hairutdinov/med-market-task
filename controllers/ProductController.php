@@ -2,43 +2,25 @@
 
 namespace app\controllers;
 
+use app\commands\RbacController;
 use app\models\Category;
-use app\models\ProductImage;
-use app\models\UploadFileForm;
 use Yii;
 use app\models\Product;
-use app\models\ProductSearch;
-use yii\db\Exception;
 use yii\web\Controller;
+use yii\web\ForbiddenHttpException;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
-use yii\web\UploadedFile;
 
-/**
- * ProductController implements the CRUD actions for Product model.
- */
 class ProductController extends Controller
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
 
 
     public function actionIndex()
     {
-        $products = Product::getProductsWithImagesAndCategories();
+        if (!Yii::$app->user->can(RbacController::VIEW_PRODUCT_LIST)) {
+            throw new ForbiddenHttpException('Нет прав для просмотра данной страницы! ');
+        }
 
+        $products = Product::getProductsWithImagesAndCategories();
         // Отображение всех категорий для товаров
         $categories = Category::all();
 
@@ -53,6 +35,10 @@ class ProductController extends Controller
      */
     public function actionView($id)
     {
+        if (!Yii::$app->user->can(RbacController::VIEW_PRODUCT_CARD)) {
+            throw new ForbiddenHttpException('Нет прав для просмотра данной страницы! ');
+        }
+
         $product = Product::getProductWithImagesAndCategory(["product.id" => $id]);
         if ($product !== null) {
             return $this->render('view', compact('product'));
