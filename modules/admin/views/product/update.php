@@ -6,7 +6,7 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
 
-$this->title = 'Update Product: ' . $model->name;
+$this->title = 'Редактирование товара: ' . $model->name;
 
 $this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['/admin/product/index']];
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['/admin/product/view', 'id' => $model->id]];
@@ -23,22 +23,66 @@ $this->params['breadcrumbs'][] = 'Редактирование';
 
   <?= $this->render('_form', compact('model', 'categories')) ?>
 
-  <div class="product-update__gallery px-2 py-4 border">
-    <h4>Изображения:</h4>
-
-    <div class="row m-0">
-        <?php foreach ($model->productImages as $image): ?>
-          <div class="product-update__image col-2">
-            <img src="<?= \yii\helpers\Url::to(["@web/uploads/{$image['url']}"]) ?>" alt="Изображение <?= $image['url'] ?>">
-          </div>
-        <?php endforeach; ?>
+  <div class="row">
+    <div class="col-6 drop-zone-wrapper">
+      <div class="dropzone" id="dropzone">Перетащите изображения сюда</div>
     </div>
 
-    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data', "class" => "mt-4"]]); ?>
-      <?= $form->field($uploadImageModel, 'imageFile')->fileInput([]); ?>
-      <?= Html::submitButton('Загрузить изображение', ["class" => "btn btn-primary"]); ?>
-    <?php ActiveForm::end(); ?>
+    <div class="col-6 uploaded-images">
+
+    </div>
   </div>
 
 
 </div>
+
+<?php
+$js = "
+(function () {
+  let dropzone = $('#dropzone');
+  
+  dropzone.on('dragover', function(e) {
+    e.preventDefault();
+    $(this).addClass('dragover');
+  });
+  
+  dropzone.on('dragleave', function(e) {
+    e.preventDefault();
+    $(this).removeClass('dragover');
+  });
+  
+  dropzone.on('drop', function(e) {
+    e.preventDefault();
+    $(this).removeClass('dragover');
+    upload(e.originalEvent.dataTransfer.files);
+  });
+  
+  function upload(files) {
+    let formData = new FormData();
+    for (let key in files) {
+      let item = files[key];
+      formData.append('file[]', item);
+    }
+    
+    $.ajax({
+        url: '" . \yii\helpers\Url::to(['/admin/product/upload-image'], true) . "',
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        processData: false,
+        contentType: false,
+        cache: false,
+        success(data) {
+          console.log(data);
+        },
+        error(err) {
+          
+        }
+      });
+  }
+  
+})();
+";
+$this->registerJs($js);
+
+?>
