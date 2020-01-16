@@ -7,12 +7,22 @@ use yii\console\Controller;
 
 class RbacController extends Controller
 {
+    /*
+     * Permissions
+     * */
     const VIEW_PRODUCT_LIST = 'viewProductList';
     const VIEW_PRODUCT_CARD = 'viewProductCard';
     const CREATE_PRODUCT = 'createProduct';
     const UPDATE_PRODUCT = 'updateProduct';
     const DELETE_PRODUCT = 'deleteProduct';
     const VIEW_ADMIN_PANEL = 'viewAdminPanel';
+
+    /*
+     * Roles
+     * */
+    const ROLE_CLIENT = 'client';
+    const ROLE_MANAGER = 'manager';
+    const ROLE_ADMIN = 'admin';
 
 
     public function actionInit()
@@ -50,14 +60,14 @@ class RbacController extends Controller
         $auth->add($viewAdminPanel);
 
 
-        $client = $auth->createRole('client');
+        $client = $auth->createRole(self::ROLE_CLIENT);
         $auth->add($client);
         $auth->addChild($client, $viewProductList);
         $auth->addChild($client, $viewProductCard);
 
 
 
-        $manager = $auth->createRole('manager');
+        $manager = $auth->createRole(self::ROLE_MANAGER);
         $auth->add($manager);
         $auth->addChild($manager, $createProduct);
         $auth->addChild($manager, $updateProduct);
@@ -66,7 +76,7 @@ class RbacController extends Controller
 
 
 
-        $admin = $auth->createRole('admin');
+        $admin = $auth->createRole(self::ROLE_ADMIN);
         $auth->add($admin);
         $auth->addChild($admin, $manager);
 
