@@ -7,37 +7,45 @@ use yii\console\Controller;
 
 class RbacController extends Controller
 {
+    const VIEW_PRODUCT_LIST = 'viewProductList';
+    const VIEW_PRODUCT_CARD = 'viewProductCard';
+    const CREATE_PRODUCT = 'createProduct';
+    const UPDATE_PRODUCT = 'updateProduct';
+    const DELETE_PRODUCT = 'deleteProduct';
+    const VIEW_ADMIN_PANEL = 'viewAdminPanel';
+
+
     public function actionInit()
     {
         $auth = Yii::$app->authManager;
 
         
-        $viewProductList = $auth->createPermission('viewProductList');
+        $viewProductList = $auth->createPermission(self::VIEW_PRODUCT_LIST);
         $viewProductList->description = 'Просмотр списка товаров';
         $auth->add($viewProductList);
 
 
-        $viewProductCard = $auth->createPermission('viewProductCard');
+        $viewProductCard = $auth->createPermission(self::VIEW_PRODUCT_CARD);
         $viewProductCard->description = 'Просмотр карточки товара';
         $auth->add($viewProductCard);
 
 
-        $createProduct = $auth->createPermission('createProduct');
+        $createProduct = $auth->createPermission(self::CREATE_PRODUCT);
         $createProduct->description = 'Создание товара';
         $auth->add($createProduct);
 
 
-        $updateProduct = $auth->createPermission('updateProduct');
+        $updateProduct = $auth->createPermission(self::UPDATE_PRODUCT);
         $updateProduct->description = 'Редактирование товара';
         $auth->add($updateProduct);
 
 
-        $deleteProduct = $auth->createPermission('deleteProduct');
+        $deleteProduct = $auth->createPermission(self::DELETE_PRODUCT);
         $deleteProduct->description = 'Удаление товара';
         $auth->add($deleteProduct);
 
 
-        $viewAdminPanel = $auth->createPermission('viewAdminPanel');
+        $viewAdminPanel = $auth->createPermission(self::VIEW_ADMIN_PANEL);
         $viewAdminPanel->description = 'Доступ к админ панели';
         $auth->add($viewAdminPanel);
 
