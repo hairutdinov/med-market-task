@@ -8,8 +8,8 @@ use yii\widgets\ActiveForm;
 
 $this->title = 'Update Product: ' . $model->name;
 
-$this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['/products']];
-$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['/product/view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['/admin/product/index']];
+$this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['/admin/product/view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Редактирование';
 ?>
 <div class="product-update">

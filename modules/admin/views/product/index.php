@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\ProductSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Products';
+$this->title = 'Товары';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="product-index">

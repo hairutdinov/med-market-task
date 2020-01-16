@@ -248,6 +248,10 @@ a.product__button:hover {
     padding: 0;
     margin: 5px 10px;
 }
+
+.breadcrumb {
+    background-color: #ececec;
+    border: 1px solid #d6d6d6;
 }
 
 @media screen and (max-width: 1200px) {
