@@ -19,6 +19,7 @@ class m200115_064959_create_product_images_table extends Migration
             'id' => $this->primaryKey(),
             'url' => $this->string()->notNull(),
             'product_id' => $this->integer()->notNull(),
+            'num' => $this->integer(1)->notNull()->defaultValue(1),
         ]);
 
         // creates index for column `product_id`
