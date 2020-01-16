@@ -75,6 +75,9 @@ $config = [
     'authManager' => [
       'class' => 'yii\rbac\DbManager',
     ],
+    'assetManager' => [
+      'appendTimestamp' => true,
+    ],
   ],
   'params' => $params,
 ];
