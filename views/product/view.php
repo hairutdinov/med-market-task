@@ -20,10 +20,6 @@ VueAsset::register($this);
       <a href="<?= \yii\helpers\Url::to(["/admin/product/update/{$product['id']}"]) ?>" class="btn btn-success">Редактировать</a>
     <?php endif; ?>
 
-    <?php if (\Yii::$app->user->can(\app\commands\RbacController::DELETE_PRODUCT)): ?>
-      <button class="btn btn-danger" @click="deleteProduct">Удалить (not work)</button>
-    <?php endif; ?>
-
 
     <div class="product__card row my-4">
 
