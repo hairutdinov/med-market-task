@@ -82,4 +82,15 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return $this->getAuthKey() === $authKey;
     }
+
+
+    public static function findByLogin($login)
+    {
+        return User::find()->where(['login'=>$login])->one();
+    }
+
+    public function validatePassword($password)
+    {
+        return ($this->password == $password) ? true : false;
+    }
 }
