@@ -12,17 +12,28 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'category_id')->dropDownList($categories) ?>
-
-    <?= $form->field($model, 'price')->textInput() ?>
-
-    <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+  <div class="row">
+    <div class="col-6">
+        <?= $form->field($model, 'name')->textInput(['maxlength' => true, "class" => "form-control"]) ?>
     </div>
+    <div class="col-6">
+        <?= $form->field($model, 'price')->textInput() ?>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-6">
+        <?= $form->field($model, 'description')->textarea(['rows' => 6]) ?>
+    </div>
+    <div class="col-6">
+        <?= $form->field($model, 'category_id')->dropDownList($categories) ?>
+    </div>
+
+  </div>
+
+  <div class="form-group">
+      <?= Html::submitButton('Сохранить', ['class' => 'product-form__button']) ?>
+  </div>
 
     <?php ActiveForm::end(); ?>
 
