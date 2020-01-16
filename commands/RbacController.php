@@ -72,6 +72,7 @@ class RbacController extends Controller
         $auth->addChild($manager, $createProduct);
         $auth->addChild($manager, $updateProduct);
         $auth->addChild($manager, $deleteProduct);
+        $auth->addChild($manager, $viewAdminPanel);
         $auth->addChild($manager, $client);
 
 
@@ -81,8 +82,8 @@ class RbacController extends Controller
         $auth->addChild($admin, $manager);
 
 
-        $auth->assign($client, 3);
+        $auth->assign($client, 1);
         $auth->assign($manager, 2);
-        $auth->assign($admin, 1);
+        $auth->assign($admin, 3);
     }
 }
