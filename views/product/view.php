@@ -8,7 +8,7 @@ use yii\helpers\Html;
 
 $this->title = $product["name"];
 
-$this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['/product']];
 $this->params['breadcrumbs'][] = $this->title;
 
 
@@ -16,11 +16,14 @@ VueAsset::register($this);
 
 ?>
 <div class="product-card-wrapper" id="product-card-wrapper">
+    <?php if (\Yii::$app->user->can(\app\commands\RbacController::UPDATE_PRODUCT)): ?>
+      <a href="<?= \yii\helpers\Url::to(["/admin/product/update/{$product['id']}"]) ?>" class="btn btn-success">Редактировать</a>
+    <?php endif; ?>
 
-    <a href="<?= \yii\helpers\Url::to(["/admin/product/update/{$product['id']}"]) ?>" class="btn btn-success">Update</a>
-    <button class="btn btn-danger" @click="deleteProduct">Delete (not work)</button>
-    
-    <?php //debug($product); ?>
+    <?php if (\Yii::$app->user->can(\app\commands\RbacController::DELETE_PRODUCT)): ?>
+      <button class="btn btn-danger" @click="deleteProduct">Удалить (not work)</button>
+    <?php endif; ?>
+
 
     <div class="product__card row my-4">
 
