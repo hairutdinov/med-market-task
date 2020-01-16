@@ -43,6 +43,13 @@ class ProductController extends Controller
         ]);
     }
 
+    public function actionView($id)
+    {
+        return $this->render('view', [
+          'model' => $this->findModel($id),
+        ]);
+    }
+
     /**
      * Создание нового товара
      * Если товар успешно создан, редирект на Карточку товара
@@ -56,7 +63,7 @@ class ProductController extends Controller
         $categories = Category::all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(["view/{$model->id}"]);
         }
 
         return $this->render('create', compact('model', 'categories'));
