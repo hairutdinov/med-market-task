@@ -1,6 +1,8 @@
 <?php
 
 namespace app\modules\admin;
+use app\commands\RbacController;
+use yii\web\ForbiddenHttpException;
 
 /**
  * admin module definition class
@@ -20,6 +22,8 @@ class Module extends \yii\base\Module
     {
         parent::init();
 
-        // custom initialization code goes here
+        if (!\Yii::$app->user->can(RbacController::VIEW_ADMIN_PANEL)) {
+            throw new ForbiddenHttpException();
+        }
     }
 }
