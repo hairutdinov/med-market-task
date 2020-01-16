@@ -39,8 +39,8 @@ AppAsset::register($this);
         'options' => ['class' => 'navbar-nav ml-auto'],
         'items' => [
             ['label' => 'Главная', 'url' => ['/admin/default/index']],
-            ['label' => 'Товары', 'url' => ['/products']],
-            ['label' => 'Категории', 'url' => ['/admin/category/admin']],
+            ['label' => 'Товары', 'url' => ['/admin/product/index']],
+            ['label' => 'Категории', 'url' => ['/admin/category/index']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Авторизация', 'url' => ['/site/login']]
             ) : (

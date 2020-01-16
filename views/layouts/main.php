@@ -3,7 +3,7 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use app\widgets\Alert;
+use app\commands\RbacController;use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap4\Nav;
 use yii\bootstrap4\NavBar;
@@ -38,7 +38,8 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav ml-auto'],
         'items' => [
-            ['label' => 'Главная', 'url' => ['/products']],
+            ['label' => 'Главная', 'url' => ['/site/index']],
+            ['label' => 'Товары', 'url' => ['/product/index']],
             Yii::$app->user->isGuest ? (
                 ['label' => 'Авторизация', 'url' => ['/site/login']]
             ) : (
