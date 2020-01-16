@@ -254,6 +254,35 @@ a.product__button:hover {
     border: 1px solid #d6d6d6;
 }
 
+.product-form__button {
+    padding: 5px 20px;
+    min-width: 150px;
+    border-radius: 5px;
+    background-color: #F25826;
+    color: #fff;
+    font-size: 18px;
+}
+
+.drop-zone-wrapper {
+    background-color: #fff;
+    padding: 8px;
+    min-height: 300px;
+}
+
+.dropzone {
+    border: 3px dashed #afa4a4;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #afa4a4;
+    font-size: 20px;
+}
+
+.dragover {
+    border-color: #F25826;
+}
+
 @media screen and (max-width: 1200px) {
     .product__button {
         flex-basis: auto;
