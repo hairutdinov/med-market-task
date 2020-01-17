@@ -4,11 +4,12 @@ namespace app\modules\admin\controllers;
 
 use app\models\Category;
 use app\models\ProductImage;
-use app\models\UploadFileForm;
+use app\models\UploadFile;
 use Yii;
 use app\models\Product;
 use app\models\ProductSearch;
 use yii\db\Exception;
+use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -85,27 +86,10 @@ class ProductController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
-        $images = $model->productImages;
-
         // Для DropDown элемента нужны все категории
         $categories = Category::all();
 
-        $productImageModel = new ProductImage();
-
-        $uploadImageModel = new UploadFileForm();
-
-        if (Yii::$app->request->isPost) {
-            if (count($images) === 5) {
-                Yii::$app->session->setFlash('upload-file__error', 'Максимальное количество изображений: 5');
-            } else {
-                if ($productImageModel->saveFileOnServer($uploadImageModel)) {
-                    $productImageModel->saveInDatabase($uploadImageModel->imageFile->name, $id);
-                }
-            }
-
-        }
-
-        return $this->render('update', compact('model', 'categories', 'productImageModel', 'uploadImageModel', 'images'));
+        return $this->render('update', compact('model', 'categories'));
     }
 
     /**
@@ -137,4 +121,19 @@ class ProductController extends Controller
 
         throw new NotFoundHttpException('The requested page does not exist.');
     }
+
+
+    public function actionUploadImage()
+    {
+        if (Yii::$app->request->isAjax) {
+
+            $model = new UploadFile();
+            $referrer = Url::to(Yii::$app->request->referrer);
+
+            echo json_encode($model->upload($_FILES, $referrer));
+        }
+    }
+
+
+
 }
