@@ -283,6 +283,21 @@ a.product__button:hover {
     border-color: #F25826;
 }
 
+.uploaded-images {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+}
+
+.image-item {
+    flex-basis: 150px;
+    flex-grow: 1;
+    flex-shrink: 0;
+    margin: 5px;
+}
+
+
 @media screen and (max-width: 1200px) {
     .product__button {
         flex-basis: auto;

@@ -19,6 +19,7 @@ use yii\filters\VerbFilter;
  */
 class ProductController extends Controller
 {
+    public $enableCsrfValidation = false;
     /**
      * {@inheritdoc}
      */
@@ -135,5 +136,13 @@ class ProductController extends Controller
     }
 
 
-
+    public function actionGetImages()
+    {
+        if (Yii::$app->request->isPost) {
+            $productId = Yii::$app->request->post("productId");
+            echo json_encode(ProductImage::find()->where(["product_id" => $productId])->orderBy(["index"=>SORT_ASC])->asArray()->all());
+            exit();
+        }
+        throw new NotFoundHttpException('Страница не найдена');
+    }
 }

@@ -97,9 +97,11 @@ class UploadFile
                             $this->setError("upload_to_server", $errors, $files, $k, $path);
                         } else {
                             if (move_uploaded_file($files['file']['tmp_name'][$k], $path)) {
+                                $model = new ProductImage();
+                                $writeToDb = $this->writeToDb($model, $filename, $name, $productId, ($images_count + $uploaded_images_count + 1));
 
-                                if ($this->writeToDb($filename, $name, $productId, ($images_count + $uploaded_images_count + 1))) {
-                                    $this->setSuccessUploadedFiles($files, $k,$uploaded_images, $path );
+                                if ($writeToDb) {
+                                    $this->setSuccessUploadedFiles($files, $k,$uploaded_images, $filename, $model->id );
                                     $uploaded_images_count += 1;
                                 } else {
                                     $this->setError("write_to_db", $errors, $files, $k, $path);
@@ -151,20 +153,20 @@ class UploadFile
         ];
     }
 
-    public function setSuccessUploadedFiles($files, $image_index, &$uploaded_images_ref, $generated_filename = null)
+    public function setSuccessUploadedFiles($files, $image_index, &$uploaded_images_ref, $generated_filename = null, $id = null)
     {
         $uploaded_images_ref[] = [
           "name" => $files["file"]["name"][$image_index],
           "type" => $files["file"]["type"][$image_index],
           "tmp_name" => $files["file"]["tmp_name"][$image_index],
           "size" => $files["file"]["size"][$image_index],
-          "filename" => $generated_filename
+          "filename" => $generated_filename,
+          "id" => $id
         ];
     }
 
-    public function writeToDb($generated_filename, $filename, $productId, $image_index)
+    public function writeToDb($model, $generated_filename, $filename, $productId, $image_index)
     {
-        $model = new ProductImage();
         $model->path = $generated_filename;
         $model->name = $filename;
         $model->product_id = $productId;

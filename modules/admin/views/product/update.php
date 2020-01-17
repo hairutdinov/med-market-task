@@ -6,6 +6,8 @@ use yii\widgets\ActiveForm;
 /* @var $this yii\web\View */
 /* @var $model app\models\Product */
 
+\antkaz\vue\VueAsset::register($this);
+
 $this->title = 'Редактирование товара: ' . $model->name;
 
 $this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['/admin/product/index']];
@@ -15,26 +17,30 @@ $this->params['breadcrumbs'][] = 'Редактирование';
 <div class="product-update">
   <h1><?= Html::encode($this->title) ?></h1>
 
-  <?php if (\Yii::$app->session->hasFlash('upload-file__error')): ?>
-    <div class="alert alert-danger"><?= \Yii::$app->session->getFlash('upload-file__error') ?></div>
-  <?php elseif (\Yii::$app->session->hasFlash('upload-file__success')): ?>
-    <div class="alert alert-success"><?= \Yii::$app->session->getFlash('upload-file__success') ?></div>
-  <?php endif; ?>
+    <?php if (\Yii::$app->session->hasFlash('upload-file__error')): ?>
+      <div class="alert alert-danger"><?= \Yii::$app->session->getFlash('upload-file__error') ?></div>
+    <?php elseif (\Yii::$app->session->hasFlash('upload-file__success')): ?>
+      <div class="alert alert-success"><?= \Yii::$app->session->getFlash('upload-file__success') ?></div>
+    <?php endif; ?>
 
-  <?= $this->render('_form', compact('model', 'categories')) ?>
+    <?= $this->render('_form', compact('model', 'categories')) ?>
 
   <div class="row">
     <div class="col-6 drop-zone-wrapper">
       <div class="dropzone" id="dropzone">Перетащите изображения сюда</div>
     </div>
 
-    <div class="col-6 uploaded-images">
+    <div class="col-6 uploaded-images" id="uploaded-images">
+
+      <div class="image-item" v-for="options in images">
+        <img v-bind:src="'<?= \yii\helpers\Url::to(["@web/uploads"]) ?>/' + options.path" alt="">
+      </div>
 
     </div>
   </div>
 
-
 </div>
+
 
 <?php
 $js = "
@@ -73,6 +79,15 @@ $js = "
         contentType: false,
         cache: false,
         success(data) {
+          let uploadedImages = data.uploaded_images;
+          for (let key in uploadedImages) {
+            let imageObj = {
+              id: uploadedImages[key]['id'],
+              path: uploadedImages[key]['filename'],
+              name: uploadedImages[key]['name']
+            };
+            Vue.set(app.images, app.images.length, imageObj);
+          }
           console.log(data);
         },
         error(err) {
@@ -86,3 +101,51 @@ $js = "
 $this->registerJs($js);
 
 ?>
+
+<script>
+  let productId = "<?=Yii::$app->request->get("id")?>";
+  var app = new Vue({
+    el: '#uploaded-images',
+    data: {
+      images: null
+    },
+    methods: {
+      getImages() {
+        fetch("http://med_market.loc/admin/product/get-images", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+          },
+          body: JSON.stringify({productId})
+        })
+          .then(response => response.json())
+          .then(images => {
+            for (let key in images) {
+              let img = new Image();
+              img.src = images[key]["path"];
+              img.onerror = () => {
+                images[key]["path"] = "no-image.jpg";
+              }
+            }
+            this.images = images
+          });
+        /*$.ajax({
+          url: 'http://med_market.loc/admin/product/get-images',
+          type: 'POST',
+          data: ({productId: 2}),
+          dataType: 'json',
+          cache: false,
+          success(data) {
+            console.log(data);
+          },
+          error(err) {
+
+          }
+        });*/
+      }
+    },
+    created() {
+      this.getImages();
+    }
+  })
+</script>
