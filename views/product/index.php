@@ -32,7 +32,7 @@ $this->title = 'Продукты';
           <?php foreach ($products as $product): ?>
           <div class="product-item col-md-6 col-lg-4">
             <?php if (count($product["productImages"]) > 0): ?>
-              <img src="<?= \yii\helpers\Url::to(['@web/uploads/' . $product["productImages"][0]["url"]]) ?>" alt="Изображение товара" class="product__img">
+              <img src="<?= \yii\helpers\Url::to(['@web/uploads/' . $product["productImages"][0]["path"]]) ?>" alt="Изображение товара" class="product__img">
             <?php else: ?>
               <img src="<?= \yii\helpers\Url::to(['@web/uploads/no-image.jpg']) ?>" alt="Изображение товара отсутствует" class="product__img">
             <?php endif; ?>

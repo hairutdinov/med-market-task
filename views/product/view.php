@@ -26,7 +26,7 @@ VueAsset::register($this);
       <div class="product__gallery col-4">
         <div class="product-gallery__main-image">
           <?php if (count($product['productImages']) > 0): ?>
-          <img src="<?= \yii\helpers\Url::to(["@web/uploads/{$product['productImages'][0]['url']}"]) ?>" alt="Изображение <?= $product["name"] ?>">
+          <img src="<?= \yii\helpers\Url::to(["@web/uploads/{$product['productImages'][0]['path']}"]) ?>" alt="Изображение <?= $product["name"] ?>">
           <?php else: ?>
             <img src="<?= \yii\helpers\Url::to(['@web/uploads/no-image.jpg']) ?>" alt="Изображение товара отсутствует">
           <?php endif; ?>
@@ -35,7 +35,7 @@ VueAsset::register($this);
         <div class="product-gallery__other-images">
           <?php if (count($product['productImages']) > 1): ?>
             <?php foreach (array_slice($product['productImages'], 1) as $productImage): ?>
-              <img src="<?= \yii\helpers\Url::to(["@web/uploads/{$productImage['url']}"]) ?>" alt="Изображение <?= $productImage['url'] ?>">
+              <img src="<?= \yii\helpers\Url::to(["@web/uploads/{$productImage['path']}"]) ?>" alt="Изображение <?= $productImage['path'] ?>">
             <?php endforeach; ?>
           <?php endif; ?>
         </div>
