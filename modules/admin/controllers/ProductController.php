@@ -140,9 +140,21 @@ class ProductController extends Controller
     {
         if (Yii::$app->request->isPost) {
             $productId = Yii::$app->request->post("productId");
-            echo json_encode(ProductImage::find()->where(["product_id" => $productId])->orderBy(["index"=>SORT_ASC])->asArray()->all());
+            echo json_encode(ProductImage::find()->where(["product_id" => $productId])->orderBy(["id"=>SORT_ASC])->asArray()->all());
             exit();
         }
         throw new NotFoundHttpException('Страница не найдена');
     }
+
+    public function actionDeleteImage()
+    {
+        if (Yii::$app->request->isPost) {
+            $id = Yii::$app->request->post("id");
+            $product_image = ProductImage::findOne($id);
+            echo json_encode($product_image->delete());
+            exit();
+        }
+        throw new NotFoundHttpException('Страница не найдена');
+    }
+
 }

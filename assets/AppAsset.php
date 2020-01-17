@@ -23,6 +23,7 @@ class AppAsset extends AssetBundle
       'css/site.css',
     ];
     public $js = [
+      "//cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js",
     ];
     public $depends = [
       'app\assets\FontAwesomeAsset',

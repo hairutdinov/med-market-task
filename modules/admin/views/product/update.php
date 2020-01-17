@@ -34,6 +34,7 @@ $this->params['breadcrumbs'][] = 'Редактирование';
 
       <div class="image-item" v-for="options in images">
         <img v-bind:src="'<?= \yii\helpers\Url::to(["@web/uploads"]) ?>/' + options.path" alt="">
+        <button class="delete-image-button" v-on:click="deleteImage(options.id)">Удалить</button>
       </div>
 
     </div>
@@ -104,6 +105,7 @@ $this->registerJs($js);
 
 <script>
   let productId = "<?=Yii::$app->request->get("id")?>";
+
   var app = new Vue({
     el: '#uploaded-images',
     data: {
@@ -122,26 +124,36 @@ $this->registerJs($js);
           .then(images => {
             for (let key in images) {
               let img = new Image();
-              img.src = images[key]["path"];
+              img.src = "/uploads/" + images[key]["path"];
               img.onerror = () => {
                 images[key]["path"] = "no-image.jpg";
               }
             }
             this.images = images
           });
-        /*$.ajax({
-          url: 'http://med_market.loc/admin/product/get-images',
-          type: 'POST',
-          data: ({productId: 2}),
-          dataType: 'json',
-          cache: false,
-          success(data) {
-            console.log(data);
-          },
-          error(err) {
+      },
+      deleteImage(id) {
 
-          }
-        });*/
+        var willBeDeleted = confirm('Вы уверены, что хотите удалить это изображение?');
+        if (willBeDeleted) {
+          fetch("http://med_market.loc/admin/product/delete-image", {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({id})
+          })
+            .then(response => response.json())
+            .then(isDeleted => {
+              if (isDeleted == 1) {
+                Vue.delete(this.images, _.findIndex(this.images, {id}));
+              } else {
+                alert("Ошибка при удалении из БД");
+              }
+            });
+
+        }
+
       }
     },
     created() {
